@@ -25,14 +25,31 @@ $images = Image_Model::getImages();
 
     <div>
         <div id="uploadResult"></div>
-        <p>картинки:</p>
         <div>
 
             <?php if (!empty($images)): ?>
-                <div id="gallery" class="image mb-3 flex-grow-1">
+                <div id="gallery" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+
                     <?php foreach ($images as $image): ?>
-                        <img class="img-fluid img-thumbnail rounded" src="app/uploads/<?php echo $image['file']; ?>" alt="img" width="200" height="200">
+                        <div class="d-flex flex-column position-relative m-2 p-2">
+
+                            <?php if ( User_Model::check()): ?>
+                                <?php if ($image['user_id'] == $_COOKIE['id']): ?>
+                                    <button class="position-absolute top-0 end-0 btn btn-danger" id="deleteImageButton" title="Удалить" data-id="<?php echo $image['id']; ?>">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                            <img class="img-thumbnail rounded" src="app/uploads/<?php echo $image['file']; ?>" alt="img" width="200" height="200">
+
+                            <?php if (isset($_COOKIE['id']) && isset($_COOKIE['hash'])): ?>
+                                <button class="btn btn-primary">Комментарии</button>
+                            <?php endif; ?>
+
+                        </div>
                     <?php endforeach; ?>
+
                 </div>
             <?php else: ?>
                 <p>картинок нет</p>
@@ -41,4 +58,8 @@ $images = Image_Model::getImages();
     </div>
 
 </div>
-<script src="app/js/uploadImage_script.js"></script>
+
+<?php if ($user): ?>
+    <script src="app/js/uploadImage_script.js"></script>
+    <script src="app/js/deleteImage_script.js"></script>
+<?php endif; ?>
