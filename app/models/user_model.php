@@ -66,4 +66,23 @@ class User_Model extends Model
         setcookie('hash', '', time() - 60 * 60 * 24 * 30, '/', '', false, true);
         header('Location: /');
     }
+
+    public static function check()
+    {
+        if (isset($_COOKIE['id']) && isset($_COOKIE['hash'])) {
+            $query = "SELECT * FROM users WHERE id = :id AND hash = :hash";
+            $db = new DB();
+            $db = $db->connect();
+            $stmt = $db->prepare($query);
+            $stmt->execute([
+                'id' => $_COOKIE['id'],
+                'hash' => $_COOKIE['hash'],
+            ]);
+            $user = $stmt->fetch();
+            if ($user) {
+                return $user;
+            }
+        }
+        return false;
+    }
 }
