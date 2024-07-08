@@ -24,7 +24,7 @@ CREATE TABLE `images`  (
     `updated_at` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
     PRIMARY KEY (`id`),
     UNIQUE INDEX `file_unique`(`file`),
-    FOREIGN KEY (`user_id`) REFERENCES users(id)
+    FOREIGN KEY (`user_id`) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 ```
 
@@ -37,7 +37,7 @@ CREATE TABLE `comments`  (
     `created_at` datetime(0) NULL DEFAULT NULL,
     `updated_at` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`user_id`) REFERENCES users(id),
-    FOREIGN KEY (`image_id`) REFERENCES images(id)
+    FOREIGN KEY (`user_id`) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (`image_id`) REFERENCES images(id) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 ```
