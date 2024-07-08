@@ -17,6 +17,7 @@ if ($user) {
     $image = Image_Model::getImageById($imageId);
     if ($image && $image['user_id'] == $user['id']) {
         if (Image_Model::deleteImage($imageId)) {
+            unlink(UPLOAD_DIR . '/' . $image['file']);
             $response = [
                 'status' => 'success',
                 'message' => 'Изображение успешно удалено',
