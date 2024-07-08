@@ -2,6 +2,21 @@
 
 class User_Model extends Model
 {
+    public static function getUserById($id) {
+        $query = "SELECT * FROM users WHERE id = :id";
+        $db = new DB();
+        $db = $db->connect();
+        $stmt = $db->prepare($query);
+        $stmt->execute(['id' => $id]);
+        $user = $stmt->fetch();
+
+        if ($stmt && $user) {
+            return $user;
+        }
+
+        return false;
+    }
+
     public static function register($name, $password)
     {
         $query = "INSERT INTO users (name, password, created_at) VALUES (:name, :password, :created_at)";
