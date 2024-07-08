@@ -17,7 +17,8 @@ if ($user) {
         $newComment['username'] = User_Model::getUserById($newComment['user_id'])['name'];
         $result = [
             'status' => 'success',
-            'comment' => $newComment
+            'comment' => $newComment,
+            'currentUserId' => $user['id']
         ];
     } else {
         $result = [

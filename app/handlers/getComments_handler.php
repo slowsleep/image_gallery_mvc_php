@@ -8,8 +8,6 @@ require_once '../models/Comment_Model.php';
 
 $rawData = file_get_contents('php://input');
 $data = json_decode($rawData, true);
-
-
 $imageId = isset($data['id']) ? $data['id'] : null;
 
 if (!$imageId) {
@@ -28,9 +26,11 @@ if ($comments) {
     for ($i = 0; $i < count($comments); $i++) {
         $comments[$i]['username'] = User_Model::getUserById($comments[$i]['user_id'])['name'];
     }
+    $user = User_Model::check();
     $response = [
         'status' => 'success',
         'comments' => $comments,
+        'currentUserId' => ($user ? $user['id'] : null),
     ];
 } else {
     $response = [
